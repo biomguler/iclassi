@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>i-GWASdb | i-CLASSi Studio</title>
+  <link rel="icon" type="image/png" href="images/favicon.png?v=3">
+  <link rel="stylesheet" href="styles.css?v=13">
+  <script src="versioning.js?v=3"></script>
+  <script src="mobile-nav.js?v=3"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+  <script src="table.js?v=4"></script>
+  <script src="hierarchy.js?v=2"></script>
+  <script src="abbreviation-tooltips.js?v=2"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="sidebar-brand" href="index.html"><img src="images/favicon-sidebar.png?v=2" alt="i-CLASSi logo"><strong>i-CLASSi</strong></a>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><span class="sidebar-icon">⌂</span>Intro</a>
+        <a class="sidebar-link" href="iclassi.html"><span class="sidebar-icon">▤</span>i-CLASSi</a>
+        <a class="sidebar-link" href="mapping.html"><span class="sidebar-icon">⇄</span>Mapping</a>
+        <a class="sidebar-link" href="hierarchy.html"><span class="sidebar-icon">⌕</span>Lookup</a>
+        <a class="sidebar-link active" href="i-gwasdb.html"><span class="sidebar-icon">◇</span>i-GWASdb</a>
+        <a class="sidebar-link" href="abbreviations.html"><span class="sidebar-icon">A</span>Abbreviations</a>
+        <a class="sidebar-link" href="data-sources.html"><span class="sidebar-icon">≡</span>Data Sources</a>
+        <a class="sidebar-link" href="learn.html"><span class="sidebar-icon">?</span>Learn</a>
+        <a class="sidebar-link" href="about.html"><span class="sidebar-icon">i</span>About</a>
+      </nav>
+      <div class="sidebar-footer"><a href="legal-notice.html">Legal Notice</a><a href="privacy-policy.html">Privacy Policy</a><span>© 2026 Murat Güler</span><span data-version-footer>i-CLASSi Tool v0.1.0 beta</span></div>
+    </aside>
+    <main class="app-main">
+      <header class="topbar">
+        <div class="topbar-title">InterLymph hierarchical classification platform for i-CLASSi</div>
+        <div class="topbar-controls"><div class="topbar-field"><label>i-CLASSi version</label><select data-version-select><option>0.1.0 (beta)</option></select></div></div>
+      </header>
+      <div class="explorer-layout data-explorer-layout" id="gwasExplorerLayout">
+        <aside class="hierarchy-panel">
+          <h2>Hierarchy Navigator</h2>
+          <div class="hierarchy-panel-controls">
+            <input id="gwasHierarchySearch" type="text" placeholder="Search hierarchy...">
+            <div class="hierarchy-level-controls level-row">
+              <button type="button" class="secondary" data-gwas-expand-level="2">Expand L2</button>
+              <button type="button" class="secondary" data-gwas-expand-level="3">Expand L3</button>
+              <button type="button" class="secondary" data-gwas-expand-level="4">Expand L4</button>
+            </div>
+            <div class="hierarchy-level-controls action-row">
+              <button type="button" class="secondary" data-gwas-expand-level="7">Expand all</button>
+              <button type="button" class="secondary" id="collapseGwasHierarchy">Collapse</button>
+            </div>
+            <button type="button" class="secondary" id="clearGwasHierarchy">Clear Selection</button>
+          </div>
+          <div class="hierarchy-tree" id="gwasHierarchyTree"></div>
+        </aside>
+        <section class="workspace">
+        <div class="page-heading"><div class="page-heading-icon">◇</div><div class="page-heading-main"><h1>i-GWASdb Explorer</h1><p>Browse genome-wide association records linked to i-CLASSi disease categories and LNIC codes.</p></div><div class="page-heading-actions"><button type="button" class="secondary navigator-toggle" data-toggle-navigator="gwasExplorerLayout">Hide navigator</button></div></div>
+        <div class="learn-callout">
+          <strong>Genomic coordinate reference</strong>
+          <span>The SNP positions reported in the i-GWASdb <strong>POS</strong> column are based on the GRCh37 human genome assembly.</span>
+        </div>
+        <section class="explorer-card gwas-context-card" id="gwasContextCard">
+          <div class="card-header">
+            <strong>i-CLASSi context</strong>
+            <span class="muted-small">Click an LNIC code in the GWAS table to view its L1-L6 classification path.</span>
+          </div>
+          <div class="gwas-context-body" id="gwasContextBody">
+            <p class="muted-small">No LNIC code selected.</p>
+          </div>
+        </section>
+        <section class="explorer-card">
+          <div class="card-header"><strong>GWAS table</strong><div class="table-actions"><input id="globalSearch" type="text" placeholder="Global search by LNIC, gene, trait, variant, or author..."><select id="quickTrait"><option value="">Quick trait...</option></select><button type="button" class="danger" id="clearTableFilters">Clear</button><button type="button" class="success" id="exportCsv">Export CSV</button></div></div>
+          <table id="gwasdbTable" class="display">
+            <thead><tr><th>LNIC Code(s)</th><th>Study type</th><th>CHR</th><th>Cytoband</th><th>POS</th><th>rsID</th><th>EA</th><th>Nearest gene(s)</th><th>P-value</th><th>Author</th><th>Reported trait(s)</th><th>EFO traits</th><th>GWAS Catalog</th><th>PUBMED</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </section>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script>
+    let classificationByLnic = {};
+    let gwasHierarchyRows = [];
+    let gwasHierarchySearchQuery = '';
+    let gwasHierarchyExpandToLevel = 1;
+    let activeGwasHierarchyButton = null;
+
+    const columnsConfigGwasdb = [
+      { data: 'LNIC Code(s)', render: renderLnicCodes },
+      { data: 'Study type' },
+      { data: 'CHR' },
+      { data: 'Cytoband' },
+      { data: 'POS' },
+      { data: 'rsID', render: renderRsIds },
+      { data: 'EA' },
+      { data: 'Nearest gene(s)' },
+      { data: 'P' },
+      { data: 'Author' },
+      { data: 'Reported trait(s)' },
+      { data: 'EFO traits', visible: true },
+      { data: 'GWAS Catalog', visible: true, render: renderGwasCatalogIds },
+      { data: 'PUBMED', visible: true, render: renderPubmedIds }
+    ];
+
+    IclassiVersions.ready().then(versionContext => {
+      $.getJSON(versionContext.file('iclassi.json'), classificationRows => {
+        gwasHierarchyRows = Array.isArray(classificationRows) ? classificationRows : [];
+        classificationByLnic = buildClassificationIndex(classificationRows);
+      }).always(() => {
+      initializeDataTable(versionContext.file('i-gwasdb.json'), '#gwasdbTable', columnsConfigGwasdb, {}, {
+        scrollY: `${Math.max(window.innerHeight - 455, 320)}px`,
+        scrollX: true,
+        heightOffset: 455,
+        buttons: ['copy', 'csv', 'excel'],
+        initComplete: function(table, data) {
+          setupColumnFilters(table);
+          setupControls(table, data);
+          setupLnicContextClicks();
+          setupGwasHierarchy(table);
+        }
+      });
+      });
+    });
+
+    function setupControls(table, data) {
+      const globalSearch = document.querySelector('#globalSearch');
+      const quickTrait = document.querySelector('#quickTrait');
+      globalSearch.addEventListener('input', () => table.search(globalSearch.value).draw());
+      [...new Set(data.map(row => row['Reported trait(s)']).filter(Boolean))].sort().forEach(trait => {
+        const option = document.createElement('option');
+        option.value = trait;
+        option.textContent = trait;
+        quickTrait.appendChild(option);
+      });
+      quickTrait.addEventListener('change', () => table.column(10).search(quickTrait.value ? `^${$.fn.dataTable.util.escapeRegex(quickTrait.value)}$` : '', true, false).draw());
+      document.querySelector('#clearTableFilters').addEventListener('click', () => { globalSearch.value = ''; quickTrait.value = ''; table.search(''); table.columns().search(''); $('#gwasdbTable thead select').val(''); $('#gwasdbTable thead input').val(''); table.draw(); });
+      document.querySelector('#exportCsv').addEventListener('click', () => table.button('.buttons-csv').trigger());
+    }
+
+    function setupGwasHierarchy(table) {
+      const tree = document.querySelector('#gwasHierarchyTree');
+      const search = document.querySelector('#gwasHierarchySearch');
+      const collapse = document.querySelector('#collapseGwasHierarchy');
+      const clear = document.querySelector('#clearGwasHierarchy');
+
+      search.addEventListener('input', event => {
+        gwasHierarchySearchQuery = event.target.value.trim().toLowerCase();
+        renderGwasHierarchy(table);
+      });
+
+      collapse.addEventListener('click', () => {
+        gwasHierarchyExpandToLevel = 1;
+        renderGwasHierarchy(table);
+      });
+
+      document.querySelectorAll('[data-gwas-expand-level]').forEach(button => {
+        button.addEventListener('click', () => {
+          gwasHierarchyExpandToLevel = Number(button.dataset.gwasExpandLevel || 1);
+          renderGwasHierarchy(table);
+        });
+      });
+
+      clear.addEventListener('click', () => {
+        search.value = '';
+        gwasHierarchySearchQuery = '';
+        gwasHierarchyExpandToLevel = 1;
+        if (activeGwasHierarchyButton) activeGwasHierarchyButton.classList.remove('active');
+        activeGwasHierarchyButton = null;
+        table.column(0).search('').draw();
+        document.querySelector('#gwasContextBody').innerHTML = '<p class="muted-small">No LNIC code selected.</p>';
+        renderGwasHierarchy(table);
+      });
+
+      renderGwasHierarchy(table);
+
+      function renderGwasHierarchy(tableInstance) {
+        const rows = getVisibleHierarchyRows(gwasHierarchyRows, gwasHierarchySearchQuery);
+        renderExpandableHierarchy(tree, rows, {
+          searchQuery: gwasHierarchySearchQuery,
+          expandToLevel: gwasHierarchyExpandToLevel,
+          onSelect: function(node, button) {
+            if (activeGwasHierarchyButton) activeGwasHierarchyButton.classList.remove('active');
+            activeGwasHierarchyButton = button;
+            button.classList.add('active');
+            const lnicCodes = getNodeLnicCodes(node);
+            tableInstance.column(0).search(buildLnicSearchPattern(lnicCodes), true, false).draw();
+            showHierarchyContext(node, lnicCodes, '#gwasContextBody');
+          }
+        });
+      }
+    }
+
+    function setupLnicContextClicks() {
+      $('#gwasdbTable tbody, #gwasContextBody').on('click', '.lnic-chip', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const lnic = this.dataset.lnic;
+        showLnicContext(lnic);
+        document.querySelectorAll('.lnic-chip.active').forEach(item => item.classList.remove('active'));
+        this.classList.add('active');
+      });
+    }
+
+    function showLnicContext(lnic) {
+      const body = document.querySelector('#gwasContextBody');
+      const row = classificationByLnic[lnic];
+      if (!row) {
+        body.innerHTML = `<p class="status error">No i-CLASSi classification row was found for ${escapeHtml(lnic)}.</p>`;
+        return;
+      }
+      const title = row['Entity-Type'] || row['WHO-HAEM5 Entity-Type'] || lnic;
+      const fields = [
+        ['LNIC Code', row['LNIC Code']],
+        ['L1 Lineage-Nature', row['Lineage-Nature']],
+        ['L2 Major Group', row['Major Group']],
+        ['L3 Category', row.Category],
+        ['L4 Class-Family', row['Class-Family']],
+        ['L5 Entity-Type', row['Entity-Type']],
+        ['L6 Subtype(s)', row['Subtype(s)']]
+      ];
+      body.innerHTML = `
+        <div class="gwas-context-title">
+          <span class="muted-small">${escapeHtml(lnic)}</span>
+          <h2>${escapeHtml(title)}</h2>
+        </div>
+        <div class="meta-grid compact">
+          ${fields.map(([label, value]) => `
+            <div class="meta-item">
+              <span>${escapeHtml(label)}</span>
+              ${escapeHtml(value || 'Not reported')}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function showHierarchyContext(node, lnicCodes, targetSelector) {
+      const body = document.querySelector(targetSelector);
+      const rows = lnicCodes.map(code => classificationByLnic[code]).filter(Boolean);
+      if (!rows.length) {
+        body.innerHTML = `<p class="status error">No i-CLASSi classification rows were found for the selected branch.</p>`;
+        return;
+      }
+      if (rows.length === 1) {
+        showLnicContext(rows[0]['LNIC Code']);
+        return;
+      }
+      body.innerHTML = `
+        <div class="gwas-context-title">
+          <span class="muted-small">${escapeHtml(node.label)} ${escapeHtml(node.value)}</span>
+          <h2>${rows.length} LNIC codes in selected branch</h2>
+        </div>
+        <div class="cui-list">
+          ${lnicCodes.map(code => `<button type="button" class="lnic-chip" data-lnic="${escapeHtml(code)}">${escapeHtml(code)}</button>`).join('')}
+        </div>
+      `;
+    }
+
+    function buildClassificationIndex(rows) {
+      return (Array.isArray(rows) ? rows : []).reduce((index, row) => {
+        const lnic = row && row['LNIC Code'];
+        if (lnic) index[lnic] = row;
+        return index;
+      }, {});
+    }
+
+    function getVisibleHierarchyRows(rows, query) {
+      if (!query) return rows;
+      return rows.filter(row =>
+        Object.values(row).some(value => String(value || '').toLowerCase().includes(query))
+      );
+    }
+
+    function getNodeLnicCodes(node) {
+      return [...new Set((node.rows || [])
+        .map(row => row && row['LNIC Code'])
+        .filter(Boolean))];
+    }
+
+    function buildLnicSearchPattern(lnicCodes) {
+      return lnicCodes.map(code => $.fn.dataTable.util.escapeRegex(code)).join('|');
+    }
+
+    function renderLnicCodes(data, type) {
+      if (type !== 'display') return data || '';
+      const codes = splitValueList(data).filter(value => /^LNIC-\d{3}-\d{3}$/i.test(value));
+      if (!codes.length) return escapeHtml(data || '');
+      return codes.map(code => `<button type="button" class="lnic-chip" data-lnic="${escapeHtml(code)}">${escapeHtml(code)}</button>`).join(' ');
+    }
+
+    function renderGwasCatalogIds(data, type) {
+      if (type !== 'display') return data || '';
+      const ids = splitValueList(data).filter(value => /^GCST\d+$/i.test(value));
+      if (!ids.length) return escapeHtml(data || '');
+      return ids.map(id => `<a class="external-id-link" href="https://www.ebi.ac.uk/gwas/studies/${encodeURIComponent(id)}" target="_blank" rel="noopener">${escapeHtml(id)}</a>`).join(' ');
+    }
+
+    function renderRsIds(data, type) {
+      if (type !== 'display') return data || '';
+      const ids = splitValueList(data).filter(value => /^rs\d+$/i.test(value));
+      if (!ids.length) return escapeHtml(data || '');
+      return ids.map(id => `
+        <span class="rsid-link-group">
+          <a class="external-id-link" href="https://www.ncbi.nlm.nih.gov/snp/?term=${encodeURIComponent(id)}" target="_blank" rel="noopener">${escapeHtml(id)}</a>
+          <a class="external-id-link secondary-link" href="https://platform.opentargets.org/search?q=${encodeURIComponent(id)}&page=1" target="_blank" rel="noopener">Open Targets</a>
+        </span>
+      `).join(' ');
+    }
+
+    function renderPubmedIds(data, type) {
+      if (type !== 'display') return data || '';
+      const ids = splitValueList(data).filter(value => /^\d+$/.test(value));
+      if (!ids.length) return escapeHtml(data || '');
+      return ids.map(id => `<a class="external-id-link" href="https://pubmed.ncbi.nlm.nih.gov/${encodeURIComponent(id)}/" target="_blank" rel="noopener">${escapeHtml(id)}</a>`).join(' ');
+    }
+
+    function splitValueList(value) {
+      return String(value || '')
+        .split(/[,;|\s]+/)
+        .map(item => item.trim())
+        .filter(Boolean);
+    }
+
+    function setupColumnFilters(table) {
+      table.columns().every(function() {
+        const column = this;
+        const header = $(column.header());
+        const title = header.text();
+        const input = $('<input type="text" placeholder="Search...">')
+          .on('click', event => event.stopPropagation())
+          .on('input', function() {
+            updateColumnSearch(column, input, select);
+          });
+        const select = $('<select><option value="">All</option></select>')
+          .on('click', event => event.stopPropagation())
+          .on('change', function() {
+            updateColumnSearch(column, input, select);
+          });
+        header.empty()
+          .append(document.createTextNode(title))
+          .append(input)
+          .append(select);
+        column.data().unique().sort().each(value => {
+          if (value !== null && value !== undefined && String(value).trim()) select.append(`<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`);
+        });
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    function updateColumnSearch(column, input, select) {
+      const text = String(input.val() || '').trim();
+      const selected = String(select.val() || '').trim();
+      if (selected) {
+        if (text && !selected.toLowerCase().includes(text.toLowerCase())) {
+          column.search('a^', true, false).draw();
+          return;
+        }
+        column.search(`^${$.fn.dataTable.util.escapeRegex(selected)}$`, true, false).draw();
+        return;
+      }
+      column.search(text, false, true).draw();
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+

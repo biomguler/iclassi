@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lookup | i-CLASSi Studio</title>
+  <link rel="icon" type="image/png" href="images/favicon.png?v=3">
+  <link rel="stylesheet" href="styles.css?v=13">
+  <script src="versioning.js?v=3"></script>
+  <script src="mobile-nav.js?v=3"></script>
+  <script src="hierarchy.js?v=2"></script>
+  <script src="umls.js?v=6"></script>
+  <script src="abbreviation-tooltips.js?v=2"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="sidebar-brand" href="index.html">
+        <img src="images/favicon-sidebar.png?v=2" alt="i-CLASSi logo">
+        <strong>i-CLASSi</strong>
+      </a>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><span class="sidebar-icon">⌂</span>Intro</a>
+        <a class="sidebar-link" href="iclassi.html"><span class="sidebar-icon">▤</span>i-CLASSi</a>
+        <a class="sidebar-link" href="mapping.html"><span class="sidebar-icon">⇄</span>Mapping</a>
+        <a class="sidebar-link active" href="hierarchy.html"><span class="sidebar-icon">⌕</span>Lookup</a>
+        <a class="sidebar-link" href="i-gwasdb.html"><span class="sidebar-icon">◇</span>i-GWASdb</a>
+        <a class="sidebar-link" href="abbreviations.html"><span class="sidebar-icon">A</span>Abbreviations</a>
+        <a class="sidebar-link" href="data-sources.html"><span class="sidebar-icon">≡</span>Data Sources</a>
+        <a class="sidebar-link" href="learn.html"><span class="sidebar-icon">?</span>Learn</a>
+        <a class="sidebar-link" href="about.html"><span class="sidebar-icon">i</span>About</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="legal-notice.html">Legal Notice</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <span>© 2026 Murat Güler</span>
+        <span data-version-footer>i-CLASSi Tool v0.1.0 beta</span>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <header class="topbar">
+        <div class="topbar-title">InterLymph hierarchical classification platform for i-CLASSi</div>
+        <div class="topbar-controls">
+          <div class="topbar-field">
+            <label for="versionSelect">i-CLASSi version</label>
+            <select id="versionSelect">
+              <option>0.1.0 (beta)</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <div class="page-heading">
+          <div class="page-heading-icon">▽</div>
+          <div class="page-heading-main">
+            <h1>i-CLASSi Lookup</h1>
+            <p>Expand the classification from L1 to L6. Terminal branches open disease details, mapped UMLS CUIs, public UMLS source content, and optional licensed live lookup.</p>
+          </div>
+          <div class="page-heading-actions">
+            <button type="button" class="secondary navigator-toggle" data-toggle-navigator="lookupHierarchyWorkspace">Hide navigator</button>
+          </div>
+        </div>
+
+        <div class="hierarchy-workspace" id="lookupHierarchyWorkspace">
+          <section class="hierarchy-browser">
+            <div class="card-header">
+              <strong>Hierarchy Navigator</strong>
+              <div class="hierarchy-panel-controls lookup-controls">
+                <input id="hierarchySearch" type="text" placeholder="Filter hierarchy by entity, subtype, or code...">
+                <div class="hierarchy-level-controls level-row">
+                  <button type="button" class="secondary" data-expand-level="2">Expand L2</button>
+                  <button type="button" class="secondary" data-expand-level="3">Expand L3</button>
+                  <button type="button" class="secondary" data-expand-level="4">Expand L4</button>
+                </div>
+                <div class="hierarchy-level-controls action-row">
+                  <button type="button" class="secondary" data-expand-level="7">Expand all</button>
+                  <button type="button" class="secondary" id="collapseHierarchy">Collapse all</button>
+                </div>
+                <button type="button" class="secondary" id="clearLookupSelection">Clear Selection</button>
+              </div>
+            </div>
+            <div id="fullHierarchyTree" class="full-hierarchy-tree"></div>
+          </section>
+
+          <section class="hierarchy-detail">
+            <div class="detail-card" id="entityDetail">
+              <strong>No terminal branch selected</strong>
+              <p class="muted-small">Click an L5 entity or L6 subtype in the tree to view the classification record.</p>
+            </div>
+
+            <section class="umls-card" id="umlsPanel">
+              <div class="umls-toolbar">
+                <div>
+                  <strong>Public UMLS content</strong>
+                  <p id="umlsStatus" class="status">Loading public UMLS cache...</p>
+                </div>
+                <a class="concept-link" href="legal-notice.html">Terminology notice</a>
+              </div>
+              <div class="umls-public-notice">
+                <p>Some material in the UMLS Metathesaurus is from copyrighted sources of the respective copyright holders. Users of the UMLS Metathesaurus are solely responsible for compliance with any copyright, patent or trademark restrictions and are referred to the copyright, patent or trademark notices appearing in the original sources, all of which are hereby incorporated by reference.</p>
+                <p>UMLS Metathesaurus data © U.S. National Library of Medicine. Cached public content is source-attributed and integrated into the i-CLASSi classification.</p>
+                <p>The cached section is limited to selected CUI, AUI, names, source codes, term metadata, and definitions from MSH, NCI, HPO, MEDLINEPLUS, ORPHANET, and PDQ. Category 3/restricted sources are excluded from the public interface. Additional UMLS metadata is retrieved live using the visitor’s own UMLS API key and is not added to the public i-CLASSi dataset.</p>
+                <p id="umlsPolicySummary" class="muted-small">Definition cache policy is loading.</p>
+              </div>
+              <div class="umls-body public-umls-body">
+                <div>
+                  <div id="selectedDisease" class="selected-disease">
+                    <strong>No entity selected</strong>
+                    <span>Click a terminal hierarchy branch to view mapped UMLS concepts.</span>
+                  </div>
+                  <div id="mappedCuis" class="cui-list"></div>
+                </div>
+                <div id="umlsResults" class="public-definition-results">
+                  <p class="muted-small">Public UMLS content will appear here after selecting a mapped CUI.</p>
+                </div>
+              </div>
+              <div class="licensed-lookup" id="licensedLookup">
+                <div class="licensed-lookup-header">
+                  <div>
+                    <strong>Licensed UMLS live lookup</strong>
+                    <p class="muted-small">Retrieve additional UMLS metadata using your own API key.</p>
+                  </div>
+                  <span class="session-badge">Live UMLS response - visible only in this browser session</span>
+                </div>
+                <p class="muted-small">Your API key is used only for the current lookup session. i-CLASSi does not intentionally store your key or the returned live UMLS metadata. Your use remains subject to your UMLS licence and the restrictions of the original vocabulary sources.</p>
+                <div class="licensed-controls">
+                  <select id="liveCuiSelect" aria-label="Mapped UMLS CUI for live lookup">
+                    <option value="">Select mapped CUI...</option>
+                  </select>
+                  <input id="umlsApiKey" type="password" autocomplete="off" placeholder="UMLS API key">
+                  <button type="button" class="secondary" id="liveLookupButton">Retrieve with my UMLS API key</button>
+                  <button type="button" class="danger" id="clearLiveLookup">Clear key and results</button>
+                </div>
+                <p id="liveLookupStatus" class="status">Select an i-CLASSi terminal branch to enable live lookup for its mapped CUI.</p>
+                <div id="liveLookupResults" class="live-lookup-results">
+                  <p class="muted-small">No live UMLS response has been retrieved in this browser session.</p>
+                </div>
+              </div>
+            </section>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    let allRows = [];
+    let hierarchySearchQuery = '';
+    let hierarchyExpandToLevel = 1;
+    const emptyEntityDetail = `
+      <strong>No terminal branch selected</strong>
+      <p class="muted-small">Click an L5 entity or L6 subtype in the tree to view the classification record.</p>
+    `;
+
+    IclassiVersions.ready().then(versionContext => {
+      const classificationUrl = versionContext.file('iclassi.json');
+      fetch(classificationUrl)
+        .then(response => {
+          if (!response.ok) throw new Error(`Could not load ${classificationUrl}`);
+          return response.json();
+        })
+        .then(rows => {
+          allRows = rows;
+          renderHierarchy(rows);
+          initIclassiUmlsPanel(null, rows, {
+            mappingUrl: versionContext.file('iclassi_mapping.json'),
+            cacheUrl: versionContext.file('umls_concepts.json'),
+            autoSelectInitial: false
+          });
+        })
+        .catch(error => {
+          document.querySelector('#fullHierarchyTree').innerHTML = `<p class="status error">${escapeHtml(error.message)}</p>`;
+        });
+    });
+
+    document.querySelector('#hierarchySearch').addEventListener('input', event => {
+      hierarchySearchQuery = event.target.value.trim().toLowerCase();
+      renderHierarchy(getVisibleHierarchyRows());
+    });
+
+    document.querySelector('#collapseHierarchy').addEventListener('click', () => {
+      hierarchyExpandToLevel = 1;
+      renderHierarchy(getVisibleHierarchyRows());
+    });
+
+    document.querySelector('#clearLookupSelection').addEventListener('click', () => {
+      hierarchySearchQuery = '';
+      hierarchyExpandToLevel = 1;
+      document.querySelector('#hierarchySearch').value = '';
+      document.querySelector('#entityDetail').innerHTML = emptyEntityDetail;
+      renderHierarchy(allRows);
+      if (window.iclassiClearDiseaseSelection) window.iclassiClearDiseaseSelection();
+    });
+
+    document.querySelectorAll('[data-expand-level]').forEach(button => {
+      button.addEventListener('click', () => {
+        hierarchyExpandToLevel = Number(button.dataset.expandLevel || 1);
+        renderHierarchy(getVisibleHierarchyRows());
+      });
+    });
+
+    function renderHierarchy(rows) {
+      renderExpandableHierarchy(document.querySelector('#fullHierarchyTree'), rows, {
+        className: 'hierarchy-tree full-tree',
+        searchQuery: hierarchySearchQuery,
+        expandToLevel: hierarchyExpandToLevel,
+        onSelect: function(node, button, isTerminal) {
+          document.querySelectorAll('.full-tree .tree-item.active').forEach(item => item.classList.remove('active'));
+          button.classList.add('active');
+          if (isTerminal && node.rows[0]) {
+            renderEntityDetail(node.rows[0]);
+            if (window.iclassiSelectDisease) window.iclassiSelectDisease(node.rows[0]);
+          }
+        }
+      });
+    }
+
+    function getVisibleHierarchyRows() {
+      if (!hierarchySearchQuery) return allRows;
+      return allRows.filter(row =>
+        Object.values(row).some(value => String(value || '').toLowerCase().includes(hierarchySearchQuery))
+      );
+    }
+
+    function renderEntityDetail(row) {
+      document.querySelector('#entityDetail').innerHTML = `
+        <strong>${escapeHtml(row['Entity-Type'] || row['WHO-HAEM5 Entity-Type'] || 'Entity')}</strong>
+        <div class="meta-grid compact entity-meta">
+          <div class="meta-item"><span>LNIC Code</span>${escapeHtml(row['LNIC Code'] || '')}</div>
+          <div class="meta-item"><span>L1 Lineage-Nature</span>${escapeHtml(row['Lineage-Nature'] || '')}</div>
+          <div class="meta-item"><span>L2 Major Group</span>${escapeHtml(row['Major Group'] || '')}</div>
+          <div class="meta-item"><span>L3 Category</span>${escapeHtml(row.Category || '')}</div>
+          <div class="meta-item"><span>L4 Class-Family</span>${escapeHtml(row['Class-Family'] || '')}</div>
+          <div class="meta-item"><span>L5 Entity-Type</span>${escapeHtml(row['Entity-Type'] || '')}</div>
+          <div class="meta-item"><span>L6 Subtype(s)</span>${escapeHtml(row['Subtype(s)'] || 'None listed')}</div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+

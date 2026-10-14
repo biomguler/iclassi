@@ -1,0 +1,110 @@
+﻿[
+    {
+        "Entry ID":  1,
+        "LNIC Code":  "LNIC-120-001",
+        "Entity-Type":  "Monoclonal B-cell lymphocytosis, CLL/non-CLL phenotype",
+        "Subtype (s)":  "MBL (Low-count MBL or clonal B-cell expansion, CLL/SLL-type MBL, non-CLL/SLL-type MBL)",
+        "Vocabulary":  "UMLS CUI",
+        "Code":  "C2698259",
+        "Mapping_type":  "exact",
+        "Vocabulary Prefered Name":  "Monoclonal B-Cell Lymphocytosis",
+        "Version":  "2025AA",
+        "Mapping confidence":  "Moderate"
+    },
+    {
+        "Entry ID":  1,
+        "LNIC Code":  "LNIC-120-001",
+        "Entity-Type":  "Monoclonal B-cell lymphocytosis, CLL/non-CLL phenotype",
+        "Subtype (s)":  "MBL (Low-count MBL or clonal B-cell expansion, CLL/SLL-type MBL, non-CLL/SLL-type MBL)",
+        "Vocabulary":  "UMLS CUI",
+        "Code":  "C5192217",
+        "Mapping_type":  "narrower",
+        "Vocabulary Prefered Name":  "Monoclonal B-cell lymphocytosis chronic lymphocytic leukemia-type",
+        "Version":  "2025AA",
+        "Mapping confidence":  "Moderate"
+    },
+    {
+        "Entry ID":  1,
+        "LNIC Code":  "LNIC-120-001",
+        "Entity-Type":  "Monoclonal B-cell lymphocytosis, CLL/non-CLL phenotype",
+        "Subtype (s)":  "MBL (Low-count MBL or clonal B-cell expansion, CLL/SLL-type MBL, non-CLL/SLL-type MBL)",
+        "Vocabulary":  "UMLS CUI",
+        "Code":  "C5230690",
+        "Mapping_type":  "narrower",
+        "Vocabulary Prefered Name":  "Monoclonal B-cell lymphocytosis non-chronic lymphocytic leukemia type",
+        "Version":  "2025AA",
+        "Mapping confidence":  "Moderate"
+    },
+    {
+        "Entry ID":  1,
+        "LNIC Code":  "LNIC-120-001",
+        "Entity-Type":  "Monoclonal B-cell lymphocytosis, CLL/non-CLL phenotype",
+        "Subtype (s)":  "MBL (Low-count MBL or clonal B-cell expansion, CLL/SLL-type MBL, non-CLL/SLL-type MBL)",
+        "Vocabulary":  "UMLS CUI",
+        "Code":  "C5190889",
+        "Mapping_type":  "narrower",
+        "Vocabulary Prefered Name":  "Non-chronic lymphocytic leukemia monoclonal B-cell lymphocytosis",
+        "Version":  "2025AA",
+        "Mapping confidence":  "Moderate"
+    },
+    {
+        "Entry ID":  1,
+        "LNIC Code":  "LNIC-120-001",
+        "Entity-Type":  "Monoclonal B-cell lymphocytosis, CLL/non-CLL phenotype",
+        "Subtype (s)":  "MBL (Low-count MBL or clonal B-cell expansion, CLL/SLL-type MBL, non-CLL/SLL-type MBL)",
+        "Vocabulary":  "SNOMED CT",
+        "Code":  "783211008",
+        "Mapping_type":  "narrower",
+        "Vocabulary Prefered Name":  "Non-chronic lymphocytic leukemia monoclonal B-cell lymphocytosis (disorder)",
+        "Version":  "SnomedCT_InternationalRF2_PRODUCTION_20250901T120000Z",
+        "Mapping confidence":  "Moderate"
+    },
+    {
+        "Entry ID":  1,
+        "LNIC Code":  "LNIC-120-001",
+        "Entity-Type":  "Monoclonal B-cell lymphocytosis, CLL/non-CLL phenotype",
+        "Subtype (s)":  "MBL (Low-count MBL or clonal B-cell expansion, CLL/SLL-type MBL, non-CLL/SLL-type MBL)",
+        "Vocabulary":  "SNOMED CT",
+        "Code":  "786855003",
+        "Mapping_type":  "narrower",
+        "Vocabulary Prefered Name":  "Monoclonal B-cell lymphocytosis chronic lymphocytic leukemia-type (disorder)",
+        "Version":  "SnomedCT_InternationalRF2_PRODUCTION_20250901T120000Z",
+        "Mapping confidence":  "Moderate"
+    },
+    {
+        "Entry ID":  1,
+        "LNIC Code":  "LNIC-120-001",
+        "Entity-Type":  "Monoclonal B-cell lymphocytosis, CLL/non-CLL phenotype",
+        "Subtype (s)":  "MBL (Low-count MBL or clonal B-cell expansion, CLL/SLL-type MBL, non-CLL/SLL-type MBL)",
+        "Vocabulary":  "ICD11",
+        "Code":  "XH73D5",
+        "Mapping_type":  "partial",
+        "Vocabulary Prefered Name":  "Monoclonal B-cell lymphocytosis, NOS",
+        "Version":  "2025-01",
+        "Mapping confidence":  "Moderate"
+    },
+    {
+        "Entry ID":  1,
+        "LNIC Code":  "LNIC-120-001",
+        "Entity-Type":  "Monoclonal B-cell lymphocytosis, CLL/non-CLL phenotype",
+        "Subtype (s)":  "MBL (Low-count MBL or clonal B-cell expansion, CLL/SLL-type MBL, non-CLL/SLL-type MBL)",
+        "Vocabulary":  "ICD11",
+        "Code":  "XH5M35",
+        "Mapping_type":  "partial",
+        "Vocabulary Prefered Name":  "Monoclonal B-cell lymphocytosis, non-CLL type",
+        "Version":  "2025-01",
+        "Mapping confidence":  "Moderate"
+    },
+    {
+        "Entry ID":  1,
+        "LNIC Code":  "LNIC-120-001",
+        "Entity-Type":  "Monoclonal B-cell lymphocytosis, CLL/non-CLL phenotype",
+        "Subtype (s)":  "MBL (Low-count MBL or clonal B-cell expansion, CLL/SLL-type MBL, non-CLL/SLL-type MBL)",
+        "Vocabulary":  "EFO",
+        "Code":  "EFO:0006889",
+        "Mapping_type":  "exact",
+        "Vocabulary Prefered Name":  "monoclonal B-cell lymphocytosis",
+        "Version":  "3.81.0",
+        "Mapping confidence":  "Moderate"
+    }
+]

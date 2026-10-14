@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapping | i-CLASSi Studio</title>
+  <link rel="icon" type="image/png" href="images/favicon.png?v=3">
+  <link rel="stylesheet" href="styles.css?v=13">
+  <script src="versioning.js?v=3"></script>
+  <script src="mobile-nav.js?v=3"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+  <script src="table.js?v=4"></script>
+  <script src="hierarchy.js?v=2"></script>
+  <script src="abbreviation-tooltips.js?v=2"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="sidebar-brand" href="index.html"><img src="images/favicon-sidebar.png?v=2" alt="i-CLASSi logo"><strong>i-CLASSi</strong></a>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><span class="sidebar-icon">⌂</span>Intro</a>
+        <a class="sidebar-link" href="iclassi.html"><span class="sidebar-icon">▤</span>i-CLASSi</a>
+        <a class="sidebar-link active" href="mapping.html"><span class="sidebar-icon">⇄</span>Mapping</a>
+        <a class="sidebar-link" href="hierarchy.html"><span class="sidebar-icon">⌕</span>Lookup</a>
+        <a class="sidebar-link" href="i-gwasdb.html"><span class="sidebar-icon">◇</span>i-GWASdb</a>
+        <a class="sidebar-link" href="abbreviations.html"><span class="sidebar-icon">A</span>Abbreviations</a>
+        <a class="sidebar-link" href="data-sources.html"><span class="sidebar-icon">≡</span>Data Sources</a>
+        <a class="sidebar-link" href="learn.html"><span class="sidebar-icon">?</span>Learn</a>
+        <a class="sidebar-link" href="about.html"><span class="sidebar-icon">i</span>About</a>
+      </nav>
+      <div class="sidebar-footer"><a href="legal-notice.html">Legal Notice</a><a href="privacy-policy.html">Privacy Policy</a><span>© 2026 Murat Güler</span><span data-version-footer>i-CLASSi Tool v0.1.0 beta</span></div>
+    </aside>
+    <main class="app-main">
+      <header class="topbar">
+        <div class="topbar-title">InterLymph hierarchical classification platform for i-CLASSi</div>
+        <div class="topbar-controls"><div class="topbar-field"><label>i-CLASSi version</label><select data-version-select><option>0.1.0 (beta)</option></select></div></div>
+      </header>
+      <div class="explorer-layout data-explorer-layout" id="mappingExplorerLayout">
+        <aside class="hierarchy-panel">
+          <h2>Hierarchy Navigator</h2>
+          <div class="hierarchy-panel-controls">
+            <input id="mappingHierarchySearch" type="text" placeholder="Search hierarchy...">
+            <div class="hierarchy-level-controls level-row">
+              <button type="button" class="secondary" data-mapping-expand-level="2">Expand L2</button>
+              <button type="button" class="secondary" data-mapping-expand-level="3">Expand L3</button>
+              <button type="button" class="secondary" data-mapping-expand-level="4">Expand L4</button>
+            </div>
+            <div class="hierarchy-level-controls action-row">
+              <button type="button" class="secondary" data-mapping-expand-level="7">Expand all</button>
+              <button type="button" class="secondary" id="collapseMappingHierarchy">Collapse</button>
+            </div>
+            <button type="button" class="secondary" id="clearMappingHierarchy">Clear Selection</button>
+          </div>
+          <div class="hierarchy-tree" id="mappingHierarchyTree"></div>
+        </aside>
+        <section class="workspace">
+        <div class="page-heading"><div class="page-heading-icon">⇄</div><div class="page-heading-main"><h1>LNIC Vocabulary Mapping</h1><p>Explore mappings between InterLymph Neoplasm Classification (LNIC) entities and external vocabularies, including ICD-O-3, ICD-9, ICD-10, and ICD-10-CM. Each row contains one vocabulary code.</p></div><div class="page-heading-actions"><button type="button" class="secondary navigator-toggle" data-toggle-navigator="mappingExplorerLayout">Hide navigator</button></div></div>
+        <section class="mapping-guide" aria-labelledby="mappingGuideTitle">
+          <div class="mapping-review-note">
+            <strong id="mappingGuideTitle">Expert review workflow</strong>
+            <p>Mapping type was assigned by four experts' independent assessment. Mapping confidence was recorded separately after these assessments and summarizes the level of agreement across the mapping effort.</p>
+          </div>
+          <div class="mapping-definition-columns">
+            <div>
+              <h2>Mapping types</h2>
+              <dl class="mapping-definition-list">
+                <dt>exact</dt><dd>The external code corresponds directly to the i-CLASSi entity.</dd>
+                <dt>narrower</dt><dd>The external code represents a more specific concept fully contained within the i-CLASSi entity.</dd>
+                <dt>broader</dt><dd>The external code encompasses the i-CLASSi entity together with additional concepts.</dd>
+                <dt>partial</dt><dd>The external code overlaps the i-CLASSi entity but is ambiguous, historical, deprecated, or not fully equivalent.</dd>
+              </dl>
+            </div>
+            <div>
+              <h2>Mapping confidence</h2>
+              <dl class="mapping-definition-list">
+                <dt>High</dt><dd>Consensus across the expert assessments.</dd>
+                <dt>Moderate</dt><dd>Majority vote across the expert assessments.</dd>
+                <dt>Low</dt><dd>Disagreement across the expert assessments.</dd>
+              </dl>
+            </div>
+          </div>
+        </section>
+        <section class="explorer-card gwas-context-card" id="mappingContextCard">
+          <div class="card-header">
+            <strong>i-CLASSi context</strong>
+            <span class="muted-small">Click an LNIC code in the mapping table to view its L1-L6 classification path.</span>
+          </div>
+          <div class="gwas-context-body" id="mappingContextBody">
+            <p class="muted-small">No LNIC code selected.</p>
+          </div>
+        </section>
+        <section class="explorer-card">
+          <div class="card-header">
+            <strong>Mapping table</strong>
+            <div class="mapping-filter-grid">
+              <label>
+                <span>Vocabulary</span>
+                <select id="mappingVocabulary"><option value="">All vocabularies</option></select>
+              </label>
+              <label>
+                <span>Mapping type</span>
+                <select id="mappingType"><option value="">All mapping types</option></select>
+              </label>
+              <label>
+                <span>Confidence</span>
+                <select id="mappingConfidence"><option value="">All confidence levels</option></select>
+              </label>
+              <label class="mapping-keyword-filter">
+                <span>LNIC code or keyword</span>
+                <input id="globalSearch" type="text" placeholder="e.g., LNIC-000-039 or Burkitt">
+              </label>
+              <div class="mapping-filter-actions">
+                <span>Filters</span>
+                <button type="button" class="secondary" id="clearTableFilters">Reset filters</button>
+              </div>
+              <div class="mapping-export-action">
+                <span>Export</span>
+                <button type="button" class="success" id="exportCsv">Export CSV</button>
+              </div>
+            </div>
+          </div>
+          <table id="mappingTable" class="display">
+            <thead><tr><th>Entry ID</th><th>LNIC Code</th><th>Entity-Type</th><th>Subtype(s)</th><th>Vocabulary</th><th>Code</th><th>Mapping type</th><th>Vocabulary Preferred Name</th><th>Version</th><th>Mapping confidence</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </section>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script>
+    let classificationByLnic = {};
+    let mappingHierarchyRows = [];
+    let mappingHierarchySearchQuery = '';
+    let mappingHierarchyExpandToLevel = 1;
+    let activeMappingHierarchyButton = null;
+
+    const columnsConfigMapping = [
+      { data: 'Entry ID', visible: false },
+      { data: 'LNIC Code', visible: true, render: renderLnicCodes },
+      { data: 'Entity-Type', visible: true },
+      { data: 'Subtype\u00A0(s)', defaultContent: '' },
+      { data: 'Vocabulary' },
+      { data: 'Code' },
+      { data: 'Mapping_type' },
+      { data: 'Vocabulary Prefered Name' },
+      { data: 'Version', visible: true },
+      { data: 'Mapping confidence' }
+    ];
+
+    IclassiVersions.ready().then(versionContext => {
+      $.getJSON(versionContext.file('iclassi.json'), classificationRows => {
+        mappingHierarchyRows = Array.isArray(classificationRows) ? classificationRows : [];
+        classificationByLnic = buildClassificationIndex(classificationRows);
+      }).always(() => {
+      initializeDataTable(versionContext.file('iclassi_mapping.json'), '#mappingTable', columnsConfigMapping, {}, {
+        scrollY: `${Math.max(window.innerHeight - 455, 320)}px`,
+        scrollX: true,
+        heightOffset: 455,
+        filterData: row => !['NCIT', 'SNOMED CT', 'ICD11'].includes(String(row.Vocabulary || '').trim().toUpperCase()),
+        buttons: ['copy', 'csv', 'excel'],
+        initComplete: function(table, data) {
+          setupColumnFilters(table);
+          setupControls(table, data);
+          setupLnicContextClicks();
+          setupMappingHierarchy(table);
+        }
+      });
+      });
+    });
+
+    function setupControls(table, data) {
+      const globalSearch = document.querySelector('#globalSearch');
+      const vocabularyFilter = document.querySelector('#mappingVocabulary');
+      const mappingTypeFilter = document.querySelector('#mappingType');
+      const confidenceFilter = document.querySelector('#mappingConfidence');
+      const clearButton = document.querySelector('#clearTableFilters');
+
+      globalSearch.addEventListener('input', () => table.search(globalSearch.value).draw());
+
+      populateFilter(vocabularyFilter, data.map(row => row.Vocabulary));
+      populateFilter(mappingTypeFilter, data.map(row => row.Mapping_type));
+      populateFilter(confidenceFilter, data.map(row => row['Mapping confidence']));
+
+      vocabularyFilter.addEventListener('change', () => applyExactColumnFilter(table, 4, vocabularyFilter.value));
+      mappingTypeFilter.addEventListener('change', () => applyExactColumnFilter(table, 6, mappingTypeFilter.value));
+      confidenceFilter.addEventListener('change', () => applyExactColumnFilter(table, 9, confidenceFilter.value));
+
+      clearButton.addEventListener('click', () => {
+        globalSearch.value = '';
+        vocabularyFilter.value = '';
+        mappingTypeFilter.value = '';
+        confidenceFilter.value = '';
+        table.search('');
+        table.columns().search('');
+        $('#mappingTable thead select').val('');
+        $('#mappingTable thead input').val('');
+        table.draw();
+        const clearHierarchy = document.querySelector('#clearMappingHierarchy');
+        if (clearHierarchy) clearHierarchy.click();
+      });
+
+      document.querySelector('#exportCsv').addEventListener('click', () => table.button('.buttons-csv').trigger());
+    }
+
+    function populateFilter(select, values) {
+      [...new Set(values.map(value => String(value || '').trim()).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
+        .forEach(value => {
+          const option = document.createElement('option');
+          option.value = value;
+          option.textContent = value;
+          select.appendChild(option);
+        });
+    }
+
+    function applyExactColumnFilter(table, columnIndex, value) {
+      const search = value
+        ? `^${$.fn.dataTable.util.escapeRegex(value)}$`
+        : '';
+      table.column(columnIndex).search(search, true, false).draw();
+    }
+
+    function setupMappingHierarchy(table) {
+      const tree = document.querySelector('#mappingHierarchyTree');
+      const search = document.querySelector('#mappingHierarchySearch');
+      const collapse = document.querySelector('#collapseMappingHierarchy');
+      const clear = document.querySelector('#clearMappingHierarchy');
+
+      search.addEventListener('input', event => {
+        mappingHierarchySearchQuery = event.target.value.trim().toLowerCase();
+        renderMappingHierarchy(table);
+      });
+
+      collapse.addEventListener('click', () => {
+        mappingHierarchyExpandToLevel = 1;
+        renderMappingHierarchy(table);
+      });
+
+      document.querySelectorAll('[data-mapping-expand-level]').forEach(button => {
+        button.addEventListener('click', () => {
+          mappingHierarchyExpandToLevel = Number(button.dataset.mappingExpandLevel || 1);
+          renderMappingHierarchy(table);
+        });
+      });
+
+      clear.addEventListener('click', () => {
+        search.value = '';
+        mappingHierarchySearchQuery = '';
+        mappingHierarchyExpandToLevel = 1;
+        if (activeMappingHierarchyButton) activeMappingHierarchyButton.classList.remove('active');
+        activeMappingHierarchyButton = null;
+        table.column(1).search('').draw();
+        document.querySelector('#mappingContextBody').innerHTML = '<p class="muted-small">No LNIC code selected.</p>';
+        renderMappingHierarchy(table);
+      });
+
+      renderMappingHierarchy(table);
+
+      function renderMappingHierarchy(tableInstance) {
+        const rows = getVisibleHierarchyRows(mappingHierarchyRows, mappingHierarchySearchQuery);
+        renderExpandableHierarchy(tree, rows, {
+          searchQuery: mappingHierarchySearchQuery,
+          expandToLevel: mappingHierarchyExpandToLevel,
+          onSelect: function(node, button) {
+            if (activeMappingHierarchyButton) activeMappingHierarchyButton.classList.remove('active');
+            activeMappingHierarchyButton = button;
+            button.classList.add('active');
+            const lnicCodes = getNodeLnicCodes(node);
+            tableInstance.column(1).search(buildLnicSearchPattern(lnicCodes), true, false).draw();
+            showHierarchyContext(node, lnicCodes, '#mappingContextBody');
+          }
+        });
+      }
+    }
+
+    function setupLnicContextClicks() {
+      $('#mappingTable tbody, #mappingContextBody').on('click', '.lnic-chip', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const lnic = this.dataset.lnic;
+        showLnicContext(lnic);
+        document.querySelectorAll('.lnic-chip.active').forEach(item => item.classList.remove('active'));
+        this.classList.add('active');
+      });
+    }
+
+    function showLnicContext(lnic) {
+      const body = document.querySelector('#mappingContextBody');
+      const row = classificationByLnic[lnic];
+      if (!row) {
+        body.innerHTML = `<p class="status error">No i-CLASSi classification row was found for ${escapeHtml(lnic)}.</p>`;
+        return;
+      }
+      const title = row['Entity-Type'] || row['WHO-HAEM5 Entity-Type'] || lnic;
+      const fields = [
+        ['LNIC Code', row['LNIC Code']],
+        ['L1 Lineage-Nature', row['Lineage-Nature']],
+        ['L2 Major Group', row['Major Group']],
+        ['L3 Category', row.Category],
+        ['L4 Class-Family', row['Class-Family']],
+        ['L5 Entity-Type', row['Entity-Type']],
+        ['L6 Subtype(s)', row['Subtype(s)']]
+      ];
+      body.innerHTML = `
+        <div class="gwas-context-title">
+          <span class="muted-small">${escapeHtml(lnic)}</span>
+          <h2>${escapeHtml(title)}</h2>
+        </div>
+        <div class="meta-grid compact">
+          ${fields.map(([label, value]) => `
+            <div class="meta-item">
+              <span>${escapeHtml(label)}</span>
+              ${escapeHtml(value || 'Not reported')}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function showHierarchyContext(node, lnicCodes, targetSelector) {
+      const body = document.querySelector(targetSelector);
+      const rows = lnicCodes.map(code => classificationByLnic[code]).filter(Boolean);
+      if (!rows.length) {
+        body.innerHTML = `<p class="status error">No i-CLASSi classification rows were found for the selected branch.</p>`;
+        return;
+      }
+      if (rows.length === 1) {
+        showLnicContext(rows[0]['LNIC Code']);
+        return;
+      }
+      body.innerHTML = `
+        <div class="gwas-context-title">
+          <span class="muted-small">${escapeHtml(node.label)} ${escapeHtml(node.value)}</span>
+          <h2>${rows.length} LNIC codes in selected branch</h2>
+        </div>
+        <div class="cui-list">
+          ${lnicCodes.map(code => `<button type="button" class="lnic-chip" data-lnic="${escapeHtml(code)}">${escapeHtml(code)}</button>`).join('')}
+        </div>
+      `;
+    }
+
+    function buildClassificationIndex(rows) {
+      return (Array.isArray(rows) ? rows : []).reduce((index, row) => {
+        const lnic = row && row['LNIC Code'];
+        if (lnic) index[lnic] = row;
+        return index;
+      }, {});
+    }
+
+    function getVisibleHierarchyRows(rows, query) {
+      if (!query) return rows;
+      return rows.filter(row =>
+        Object.values(row).some(value => String(value || '').toLowerCase().includes(query))
+      );
+    }
+
+    function getNodeLnicCodes(node) {
+      return [...new Set((node.rows || [])
+        .map(row => row && row['LNIC Code'])
+        .filter(Boolean))];
+    }
+
+    function buildLnicSearchPattern(lnicCodes) {
+      return lnicCodes.map(code => $.fn.dataTable.util.escapeRegex(code)).join('|');
+    }
+
+    function renderLnicCodes(data, type) {
+      if (type !== 'display') return data || '';
+      const codes = splitValueList(data).filter(value => /^LNIC-\d{3}-\d{3}$/i.test(value));
+      if (!codes.length) return escapeHtml(data || '');
+      return codes.map(code => `<button type="button" class="lnic-chip" data-lnic="${escapeHtml(code)}">${escapeHtml(code)}</button>`).join(' ');
+    }
+
+    function splitValueList(value) {
+      return String(value || '')
+        .split(/[,;|\s]+/)
+        .map(item => item.trim())
+        .filter(Boolean);
+    }
+
+    function setupColumnFilters(table) {
+      table.columns().every(function() {
+        const column = this;
+        const header = $(column.header());
+        const title = header.text();
+        const input = $('<input type="text" placeholder="Search...">')
+          .on('click', event => event.stopPropagation())
+          .on('input', function() {
+            updateColumnSearch(column, input, select);
+          });
+        const select = $('<select><option value="">All</option></select>')
+          .on('click', event => event.stopPropagation())
+          .on('change', function() {
+            updateColumnSearch(column, input, select);
+          });
+        header.empty()
+          .append(document.createTextNode(title))
+          .append(input)
+          .append(select);
+        column.data().unique().sort().each(value => {
+          if (value !== null && value !== undefined && String(value).trim()) select.append(`<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`);
+        });
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    function updateColumnSearch(column, input, select) {
+      const text = String(input.val() || '').trim();
+      const selected = String(select.val() || '').trim();
+      if (selected) {
+        if (text && !selected.toLowerCase().includes(text.toLowerCase())) {
+          column.search('a^', true, false).draw();
+          return;
+        }
+        column.search(`^${$.fn.dataTable.util.escapeRegex(selected)}$`, true, false).draw();
+        return;
+      }
+      column.search(text, false, true).draw();
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+

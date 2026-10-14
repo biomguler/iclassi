@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn | i-CLASSi Studio</title>
+  <link rel="icon" type="image/png" href="images/favicon.png?v=3">
+  <link rel="stylesheet" href="styles.css?v=14">
+  <script src="versioning.js?v=3"></script>
+  <script src="mobile-nav.js?v=3"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="sidebar-brand" href="index.html">
+        <img src="images/favicon-sidebar.png?v=2" alt="i-CLASSi logo">
+        <strong>i-CLASSi</strong>
+      </a>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><span class="sidebar-icon">⌂</span>Intro</a>
+        <a class="sidebar-link" href="iclassi.html"><span class="sidebar-icon">▤</span>i-CLASSi</a>
+        <a class="sidebar-link" href="mapping.html"><span class="sidebar-icon">⇄</span>Mapping</a>
+        <a class="sidebar-link" href="hierarchy.html"><span class="sidebar-icon">⌕</span>Lookup</a>
+        <a class="sidebar-link" href="i-gwasdb.html"><span class="sidebar-icon">◇</span>i-GWASdb</a>
+        <a class="sidebar-link" href="abbreviations.html"><span class="sidebar-icon">A</span>Abbreviations</a>
+        <a class="sidebar-link" href="data-sources.html"><span class="sidebar-icon">≡</span>Data Sources</a>
+        <a class="sidebar-link active" href="learn.html"><span class="sidebar-icon">?</span>Learn</a>
+        <a class="sidebar-link" href="about.html"><span class="sidebar-icon">i</span>About</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="legal-notice.html">Legal Notice</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <span>© 2026 Murat Güler</span>
+        <span data-version-footer>i-CLASSi Tool v0.1.0 beta</span>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <header class="topbar">
+        <div class="topbar-title">InterLymph hierarchical classification platform for i-CLASSi</div>
+        <div class="topbar-controls">
+          <div class="topbar-field">
+            <label>i-CLASSi version</label>
+            <select data-version-select><option>0.1.0 (beta)</option></select>
+          </div>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <article class="content-panel learn-panel" id="learn-top">
+          <h1>Learn i-CLASSi</h1>
+          <p>Use this guide as the working documentation for the i-CLASSi Studio tabs. It explains what each module is for, how to search and filter records, and what each table column means.</p>
+
+          <section class="learn-callout">
+            <strong>Recommended workflow</strong>
+            <ol>
+              <li>Start in <a href="iclassi.html">i-CLASSi</a> to find the disease entity in the InterLymph hierarchy.</li>
+              <li>Open <a href="hierarchy.html">Lookup</a> when you need the hierarchy path, mapped UMLS CUI, public UMLS source content, or live UMLS metadata with your own API key.</li>
+              <li>Use <a href="mapping.html">Mapping</a> to inspect vocabulary mappings for the selected LNIC code.</li>
+              <li>Use <a href="i-gwasdb.html">i-GWASdb</a> to review linked GWAS records.</li>
+              <li>Use <a href="abbreviations.html">Abbreviations</a> whenever terminology or acronyms are unclear.</li>
+              <li>Use <a href="data-sources.html">Data Sources</a> to review version-specific source snapshots, counts, reference builds, and provenance notes.</li>
+            </ol>
+          </section>
+
+          <nav class="learn-toc" aria-label="Learn page sections">
+            <a href="#interface">Interface Basics</a>
+            <a href="#navigator-docs">Hierarchy Navigator</a>
+            <a href="#iclassi-docs">i-CLASSi</a>
+            <a href="#lookup-docs">Lookup</a>
+            <a href="#mapping-docs">Mapping</a>
+            <a href="#igwas-docs">i-GWASdb</a>
+            <a href="#abbrev-docs">Abbreviations</a>
+            <a href="#sources-docs">Data Sources</a>
+          </nav>
+
+          <h2 id="interface">Interface Basics</h2>
+          <div class="learn-grid">
+            <section class="learn-card">
+              <h3>Version selector</h3>
+              <p>The selector in the top-right corner controls the data release loaded by data-driven tabs. The beta release loads the full matched classification, mapping, and GWAS JSON files. Prototype versions are smaller subsets included to demonstrate version switching.</p>
+            </section>
+            <section class="learn-card">
+              <h3>Global search</h3>
+              <p>Use the large search box above a table to search across all visible columns. This is useful for broad terms such as an entity name, LNIC code, vocabulary code, gene symbol, or author.</p>
+            </section>
+            <section class="learn-card">
+              <h3>Column filters</h3>
+              <p>Each table column has its own filter under the column header. Text boxes support partial matches; dropdown filters restrict the table to exact values listed in that column.</p>
+            </section>
+            <section class="learn-card">
+              <h3>Abbreviation tooltips</h3>
+              <p>Recognized abbreviations are marked with a dotted underline in classification tables, hierarchy trees, and L1-L6 context panels. Hover over the term, focus it with the keyboard, or tap it on a touch device to see the full name.</p>
+            </section>
+            <section class="learn-card">
+              <h3>Export</h3>
+              <p>Use <strong>Export CSV</strong> to download the currently filtered table. Apply search and column filters first when you only need a subset.</p>
+            </section>
+          </div>
+
+          <h2 id="navigator-docs">Hierarchy Navigator</h2>
+          <p>The Hierarchy Navigator provides a consistent L1-L6 view of the i-CLASSi classification in the i-CLASSi, Lookup, Mapping, and i-GWASdb tabs.</p>
+          <div class="learn-grid">
+            <section class="learn-card">
+              <h3>Browse the hierarchy</h3>
+              <p>The navigator initially shows L1 branches. Click a branch arrow to reveal its downstream levels. L5 represents entity type and L6 represents subtype(s).</p>
+            </section>
+            <section class="learn-card">
+              <h3>Search and expand</h3>
+              <p>Enter an entity, subtype, hierarchy label, or LNIC code in the navigator search. Matching paths expand automatically and matching text is highlighted. Expand L2, L3, L4, or all levels when you want a broader overview.</p>
+            </section>
+            <section class="learn-card">
+              <h3>Filter linked tables</h3>
+              <p>In i-CLASSi, Mapping, and i-GWASdb, selecting a branch filters the table to records associated with the LNIC codes contained in that branch. A terminal branch narrows the result to its entity or subtype.</p>
+            </section>
+            <section class="learn-card">
+              <h3>Hide or reset</h3>
+              <p>Use the blue <strong>Hide navigator</strong> button to give the table or detail panel more room. The button changes to <strong>Show navigator</strong> so the panel can be restored. Use <strong>Clear Selection</strong> to remove the hierarchy search and branch filter.</p>
+            </section>
+          </div>
+
+          <h2 id="iclassi-docs">i-CLASSi Explorer</h2>
+          <p>The i-CLASSi tab is the main classification reference. It lists InterLymph lymphoid neoplasm entities and connects the updated hierarchy to earlier WHO/InterLymph labels.</p>
+          <h3>How to use it</h3>
+          <ul>
+            <li>Use the Hierarchy Navigator to expand from L1 to downstream levels and filter the table.</li>
+            <li>Use the hierarchy search to find a term and automatically reveal matching branches.</li>
+            <li>Use column filters when you know a specific LNIC code, category, family, entity type, or subtype.</li>
+            <li>Select a terminal entity when you want to inspect its context before opening Lookup or Mapping.</li>
+          </ul>
+          <h3>Column glossary</h3>
+          <dl class="column-glossary">
+            <dt>Source</dt><dd>Source classification or release from which the row was derived.</dd>
+            <dt>Entry ID</dt><dd>Internal row identifier used to group records in the source dataset.</dd>
+            <dt>LNIC Code</dt><dd>Stable i-CLASSi identifier for a lymphoid neoplasm classification entity.</dd>
+            <dt>WHO-HAEM5 Category</dt><dd>WHO-HAEM5 high-level disease category.</dd>
+            <dt>WHO-HAEM5 Family-Class</dt><dd>WHO-HAEM5 family or class grouping.</dd>
+            <dt>WHO-HAEM5 Entity-Type</dt><dd>WHO-HAEM5 entity label.</dd>
+            <dt>Interlymph 2010 Entity-Type based on WHO-HAEM4</dt><dd>Earlier InterLymph entity name used for comparison with the updated classification.</dd>
+            <dt>Lineage-Nature</dt><dd>Top-level biological lineage or nature of the neoplasm.</dd>
+            <dt>Major Group</dt><dd>Broad i-CLASSi grouping below lineage.</dd>
+            <dt>Category</dt><dd>Intermediate classification category.</dd>
+            <dt>Class-Family</dt><dd>Family-level grouping used to organize related entities.</dd>
+            <dt>Entity-Type</dt><dd>Main i-CLASSi disease entity name.</dd>
+            <dt>Subtype(s)</dt><dd>Specific subtypes or variants grouped under the entity.</dd>
+          </dl>
+
+          <h2 id="lookup-docs">Lookup</h2>
+          <p>The Lookup tab is the terminology workspace for a selected i-CLASSi entity. It combines the L1-L6 hierarchy path, mapped vocabulary identifiers, versioned public UMLS cache content, and optional licensed live UMLS retrieval.</p>
+          <div class="learn-callout">
+            <strong>UMLS access</strong>
+            <span>Public i-CLASSi lookup content is available without a user key. Live UMLS lookup requires your own UMLS Terminology Services account and API key from the U.S. National Library of Medicine.</span>
+          </div>
+          <h3>How to use it</h3>
+          <ul>
+            <li>Search the classification tree by disease name, subtype, abbreviation, or LNIC code.</li>
+            <li>Use Expand L2, L3, or L4 to open the tree to a controlled depth without expanding everything.</li>
+            <li>Click a terminal branch to load the disease detail panel, hierarchy path, and mapped UMLS CUI list.</li>
+            <li>Select a mapped CUI to inspect public, versioned UMLS cache content. This public cache appears without requiring a user API key.</li>
+            <li>Use licensed live lookup only when you need additional UMLS atoms, relations, broader concepts, narrower concepts, or current metadata beyond the public cache.</li>
+          </ul>
+          <h3>Public cache versus live lookup</h3>
+          <dl class="column-glossary">
+            <dt>Public UMLS cache</dt><dd>Versioned content bundled with i-CLASSi. It is limited to selected CUI, AUI, names, source codes, term metadata, and source-attributed definitions from MSH, NCI, HPO, MEDLINEPLUS, ORPHANET, and PDQ. Category 3/restricted vocabularies are excluded from the public interface.</dd>
+            <dt>Licensed live lookup</dt><dd>Optional UMLS API retrieval performed in the browser with the visitor's own API key. Returned live tables include atoms, relations, broader concepts, and narrower concepts, and can be downloaded as TXT for the current browser session.</dd>
+            <dt>API key handling</dt><dd>The API key is used for the current browser session lookup. Do not share your key, paste it into screenshots, or commit it to project files.</dd>
+          </dl>
+          <h3>How to get a UMLS API key</h3>
+          <ol>
+            <li>Open the official NLM UMLS page: <a href="https://www.nlm.nih.gov/research/umls/index.html" target="_blank" rel="noopener">Unified Medical Language System (UMLS)</a>.</li>
+            <li>Use the NLM/UTS sign-up or request-license link to create an individual UMLS Terminology Services account.</li>
+            <li>Review and accept the UMLS license terms. NLM states that UMLS licenses are issued to individuals, not groups or organizations, and that there is no charge for licensing the UMLS from NLM.</li>
+            <li>After your UTS account is active, open your UTS profile/API-key area and copy your API key.</li>
+            <li>Return to i-CLASSi Lookup, select a mapped CUI, paste the key into the live lookup field, and click <strong>Retrieve with my UMLS API key</strong>.</li>
+          </ol>
+          <h3>Lookup fields</h3>
+          <dl class="column-glossary">
+            <dt>Hierarchy Navigator</dt><dd>Expandable L1 to L6 hierarchy. L5 represents entity type and L6 represents subtype(s).</dd>
+            <dt>Selected disease</dt><dd>The terminal hierarchy item currently selected by the user.</dd>
+            <dt>Mapped CUIs</dt><dd>UMLS Concept Unique Identifiers linked to the selected i-CLASSi entity through the mapping table.</dd>
+            <dt>Public UMLS content</dt><dd>Cached source-attributed UMLS definitions and selected atom-level fields from public-compatible sources. Displayed atom fields include CUI, AUI, name, source abbreviation, term type, and source code.</dd>
+            <dt>Live UMLS lookup</dt><dd>Licensed UMLS API lookup using the visitor's own key. Use it for source-attributed UMLS details that are not included in the public i-CLASSi cache.</dd>
+          </dl>
+          <h2 id="mapping-docs">Mapping Explorer</h2>
+          <p>The Mapping tab documents how LNIC entities are linked to external biomedical vocabularies and ontology identifiers. Each row contains one vocabulary code.</p>
+          <figure class="content-figure mapping-workflow-figure">
+            <img src="images/mapping-workflow-figure.jpg" alt="i-CLASSi mapping workflow showing expert review, mapping types, and confidence categories">
+            <figcaption>Figure 1. Independent expert review determines mapping type and mapping confidence.</figcaption>
+          </figure>
+          <div class="learn-callout">
+            <strong>Expert review workflow</strong>
+            <span>Mapping type was assigned using four categories by four experts' independent assessment. After these independent assessments, mapping confidence was recorded separately as High, Moderate, or Low to summarize the level of agreement across the mapping effort.</span>
+          </div>
+          <h3>How to use it</h3>
+          <ul>
+            <li>Use the Hierarchy Navigator to filter mapping records by any L1-L6 branch and its linked LNIC codes.</li>
+            <li>Use Vocabulary, Mapping type, Confidence, and LNIC code or keyword filters to narrow the table.</li>
+            <li>Filter by LNIC code to see every vocabulary mapping for one entity.</li>
+            <li>Click an LNIC code in the mapping table to show the corresponding L1-L6 i-CLASSi classification context.</li>
+            <li>Filter by Vocabulary to compare mappings from UMLS, ICD, EFO, or other displayed sources included in the release.</li>
+            <li>Use Mapping type to interpret semantic scope and Mapping confidence to assess agreement across the expert review workflow.</li>
+          </ul>
+          <h3>Mapping types</h3>
+          <p>Mapping type describes the semantic relationship between the external concept and the target i-CLASSi lymphoid entity or subtype. The four public mapping categories are:</p>
+          <dl class="column-glossary">
+            <dt>exact</dt><dd>The external code corresponds directly to the i-CLASSi entity.</dd>
+            <dt>narrower</dt><dd>The external code represents a more specific concept fully contained within the i-CLASSi entity.</dd>
+            <dt>broader</dt><dd>The external code encompasses the i-CLASSi entity together with additional concepts.</dd>
+            <dt>partial</dt><dd>The external code overlaps the i-CLASSi entity but is ambiguous, historical, deprecated, or not fully equivalent.</dd>
+          </dl>
+          <h3>Mapping confidence</h3>
+          <p>Mapping confidence is recorded separately from mapping type. It summarizes agreement after independent expert review and should not be interpreted as semantic closeness.</p>
+          <dl class="column-glossary">
+            <dt>High</dt><dd>Consensus across the expert assessments.</dd>
+            <dt>Moderate</dt><dd>Majority vote across the expert assessments.</dd>
+            <dt>Low</dt><dd>Disagreement across the expert assessments.</dd>
+          </dl>
+          <h3>Column glossary</h3>
+          <dl class="column-glossary">
+            <dt>Entry ID</dt><dd>Internal row identifier from the mapping dataset.</dd>
+            <dt>LNIC Code</dt><dd>i-CLASSi entity identifier being mapped. Click the code to show its L1-L6 classification path above the table.</dd>
+            <dt>Entity-Type</dt><dd>Main i-CLASSi disease entity associated with the mapping.</dd>
+            <dt>Subtype (s)</dt><dd>Subtype label or subtype group associated with the mapping row.</dd>
+            <dt>Vocabulary</dt><dd>External vocabulary, ontology, or coding system.</dd>
+            <dt>Code</dt><dd>Identifier in the external vocabulary.</dd>
+            <dt>Mapping_type</dt><dd>Semantic relationship assigned by independent expert assessment: exact, narrower, broader, or partial.</dd>
+            <dt>Vocabulary Prefered Name</dt><dd>Preferred label from the external vocabulary. The original column name preserves the source spelling.</dd>
+            <dt>Version</dt><dd>Version or release of the external vocabulary used for the mapping.</dd>
+            <dt>Mapping confidence</dt><dd>Agreement category recorded after independent expert assessment: High for consensus, Moderate for majority vote, and Low for disagreement.</dd>
+          </dl>
+
+          <h2 id="igwas-docs">i-GWASdb Explorer</h2>
+          <p>i-GWASdb links genetic association records to i-CLASSi disease categories. It is intended for browsing GWAS evidence in the context of the classification.</p>
+          <h3>How to use it</h3>
+          <ul>
+            <li>Use the Hierarchy Navigator to filter GWAS records by any L1-L6 branch and its linked LNIC codes.</li>
+            <li>Search by LNIC code to find GWAS records mapped to an i-CLASSi entity.</li>
+            <li>Click an LNIC code in the table to show the corresponding L1-L6 i-CLASSi classification context.</li>
+            <li>Search by rsID, nearest gene, trait, author, or PubMed identifier for literature-driven exploration.</li>
+            <li>Click rsID, GWAS Catalog, or PubMed identifiers to open external records in a new browser tab.</li>
+            <li>Interpret values in the POS column as GRCh37 genomic coordinates. Convert or lift over positions before comparing them directly with resources using GRCh38.</li>
+            <li>Use P values, cytobands, and genomic positions to compare signals across records.</li>
+          </ul>
+          <h3>External identifier links</h3>
+          <ul>
+            <li><strong>rsID</strong> opens the dbSNP variant page. For example, <code>rs7176508</code> opens <code>https://www.ncbi.nlm.nih.gov/snp/?term=rs7176508</code>.</li>
+            <li><strong>Open Targets</strong> appears next to each rsID and searches the Open Targets Platform. For example, <code>rs7176508</code> opens <code>https://platform.opentargets.org/search?q=rs7176508&amp;page=1</code>.</li>
+            <li><strong>GWAS Catalog</strong> IDs open EBI GWAS Catalog study pages. For example, <code>GCST001826</code> opens <code>https://www.ebi.ac.uk/gwas/studies/GCST001826</code>.</li>
+            <li><strong>PUBMED</strong> IDs open PubMed publication pages. For example, <code>23047821</code> opens <code>https://pubmed.ncbi.nlm.nih.gov/23047821/</code>.</li>
+          </ul>
+          <h3>Column glossary</h3>
+          <dl class="column-glossary">
+            <dt>LNIC Code(s)</dt><dd>One or more i-CLASSi identifiers linked to the GWAS record.</dd>
+            <dt>Study type</dt><dd>Type or design of the genetic association study.</dd>
+            <dt>CHR</dt><dd>Chromosome where the reported variant or locus is located.</dd>
+            <dt>Cytoband</dt><dd>Cytogenetic band for the locus.</dd>
+            <dt>POS</dt><dd>Genomic position reported for the variant or locus, based on the GRCh37 human genome assembly.</dd>
+            <dt>rsID</dt><dd>Reference SNP identifier. The rsID link opens dbSNP; the adjacent Open Targets link searches the Open Targets Platform for the same variant.</dd>
+            <dt>EA</dt><dd>Effect allele reported for the association.</dd>
+            <dt>Nearest gene(s)</dt><dd>Nearest gene or genes assigned to the reported locus.</dd>
+            <dt>P</dt><dd>P value for the reported association.</dd>
+            <dt>Author</dt><dd>Lead author or study author label.</dd>
+            <dt>Reported trait(s)</dt><dd>Trait name as reported by the study or catalog source.</dd>
+            <dt>EFO traits</dt><dd>Experimental Factor Ontology trait labels mapped to the reported trait.</dd>
+            <dt>GWAS Catalog</dt><dd>GWAS Catalog study accession. IDs such as GCST001826 open the corresponding EBI GWAS Catalog study page.</dd>
+            <dt>PUBMED</dt><dd>PubMed identifier for the associated publication. IDs open the corresponding PubMed record at NCBI.</dd>
+          </dl>
+
+          <h2 id="abbrev-docs">Abbreviations</h2>
+          <p>The Abbreviations tab is a version-specific reference for acronyms, shortened terms, aliases, categories, and lifecycle status used across i-CLASSi resources.</p>
+          <h3>How to use it</h3>
+          <ul>
+            <li>The selected i-CLASSi version controls which abbreviation JSON file is loaded.</li>
+            <li>Search the abbreviation column when you know the acronym.</li>
+            <li>Search the full-name column when you know the expanded term but not the abbreviation.</li>
+            <li>Search aliases to find alternative abbreviations that resolve to the same canonical term.</li>
+            <li>Use category and status filters to distinguish terminology groups and current or retired labels.</li>
+            <li>In other tabs, recognized standalone abbreviations show their full name in a tooltip without expanding the table columns.</li>
+            <li>Keep this tab open while reading mapping or GWAS rows with dense terminology.</li>
+          </ul>
+          <h3>Column glossary</h3>
+          <dl class="column-glossary">
+            <dt>Abbreviation</dt><dd>Canonical short form used in the selected i-CLASSi version.</dd>
+            <dt>Full name</dt><dd>Expanded term represented by the canonical abbreviation.</dd>
+            <dt>Category</dt><dd>Terminology group, such as classification, biomarker, clinical, or data-source terminology.</dd>
+            <dt>Status</dt><dd>Lifecycle state for the selected release, such as current or retired.</dd>
+            <dt>Aliases</dt><dd>Alternative short forms that resolve to the same full name and tooltip definition.</dd>
+          </dl>
+
+          <h2 id="sources-docs">Data Sources</h2>
+          <p>The Data Sources tab records the external resources and source snapshots used by each selectable i-CLASSi version.</p>
+          <h3>How to use it</h3>
+          <ul>
+            <li>Select an i-CLASSi version in the top-right corner to load provenance metadata for that release.</li>
+            <li>Review the snapshot date before comparing i-CLASSi counts with a live external database, because external resources continue to change.</li>
+            <li>Use the reported genome assembly and reference database build when interpreting genomic positions and variant identifiers.</li>
+            <li>Open the source website for current records, policies, citations, and updated database totals.</li>
+            <li>Prototype versions are documented as demonstration subsets when they reuse a source snapshot from the beta release.</li>
+          </ul>
+          <a class="back-to-top" href="#learn-top">Back to top</a>
+        </article>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
+
+
+
+
+
